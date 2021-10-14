@@ -76,7 +76,6 @@ public class add3cart extends HttpServlet {
             }
 
             session.setAttribute("grandtotal", totalmoney);
-//            session.setAttribute("totalProduct", number);
             session.setAttribute("listCart", lsCart);
             String s = "ProductDetailController?id=" + id;
             response.sendRedirect(s);
