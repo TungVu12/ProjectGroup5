@@ -354,7 +354,6 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO pd = new ProductDAO();
-        OrderDetailDAO od = new OrderDetailDAO();
         System.out.println(pd.DisplayAllProductandCateName());
 
     }
