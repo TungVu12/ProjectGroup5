@@ -42,7 +42,6 @@ public class RemoveCartController extends HttpServlet {
                 session.removeAttribute(listCart);
                 session.removeAttribute("grandtotal");
                 //remove all session
-                //session.invalidate();
             } else {
                 List<OrderDetail> lsCart = (List<OrderDetail>) session.getAttribute(listCart);
 
