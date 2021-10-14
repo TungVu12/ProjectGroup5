@@ -307,7 +307,6 @@ public class OrderDAO extends DBContext {
 
     public static void main(String[] args) {
         OrderDAO o = new OrderDAO();
-        Order or = new OrderDAO().getMaxID();
 //        Customer cu = new CustomerDAO().getOne("hoang");
 //        System.out.println(o.add(new Order(or.getId() + 1, cu.getCname(), cu.getCphone(),
 //                cu.getcAddress(), 2.0, 1, new Customer(cu.getId()), "")));
