@@ -35,7 +35,7 @@ public class AccountListController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account a = new Account();
+
         AccountDAO adb = new AccountDAO();
         List<Account> as = adb.getAll();
         request.setAttribute("list", as);
