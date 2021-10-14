@@ -97,8 +97,8 @@ public class UpdateAccountController extends HttpServlet {
         c.setcAddress(cAdress);
         c.setUsername(username);
         c.setPassword(newpassword);
-        int a = adb.changePassword(username, password, newpassword, id);
-        int b = cdb.UpdateCustomer2(username, password, newpassword, c);
+        adb.changePassword(username, password, newpassword, id);
+        cdb.UpdateCustomer2(username, password, newpassword, c);
         response.sendRedirect("UpdateAccountController");
     }
 
