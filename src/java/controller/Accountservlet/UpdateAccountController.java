@@ -87,7 +87,7 @@ public class UpdateAccountController extends HttpServlet {
         AccountDAO adb = new AccountDAO();
         CustomerDAO cdb = new CustomerDAO();
 
-//        adb.UpdateAccount(new Account(username, password), id);
+
         if (newpassword.length() == 0) {
             newpassword = password;
         }
