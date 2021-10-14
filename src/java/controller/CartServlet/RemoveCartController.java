@@ -33,17 +33,18 @@ public class RemoveCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        string listCart = "listCart";
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             HttpSession session = request.getSession();
 
             if (id == 0) {
-                session.removeAttribute("listCart");
+                session.removeAttribute(listCart);
                 session.removeAttribute("grandtotal");
                 //remove all session
                 //session.invalidate();
             } else {
-                List<OrderDetail> lsCart = (List<OrderDetail>) session.getAttribute("listCart");
+                List<OrderDetail> lsCart = (List<OrderDetail>) session.getAttribute(listCart);
 
                 for (int i = 0; i < lsCart.size(); ++i) {
                     if (lsCart.get(i).getProductid().getId() == id) {
@@ -58,7 +59,7 @@ public class RemoveCartController extends HttpServlet {
 
                 session.setAttribute("grandtotal", totalmoney);
 //            session.setAttribute("totalProduct", number);
-                session.setAttribute("listCart", lsCart);
+                session.setAttribute(listCart, lsCart);
 
             }
 
