@@ -130,8 +130,7 @@ public class CategoryDao extends DBContext {
 
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                Category c = new Category(rs.getInt(1), rs.getString(2), rs.getInt(3));
-                return c;
+                new Category(rs.getInt(1), rs.getString(2), rs.getInt(3));
             }
         } catch (SQLException e) {
         }
