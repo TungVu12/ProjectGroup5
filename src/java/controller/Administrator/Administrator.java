@@ -86,8 +86,8 @@ public class Administrator extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws UnsupportedOperationException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+           throw new UnsupportedOperationException();
 
     }
 
