@@ -35,16 +35,16 @@ public class RemoveAccountController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String raw_id = request.getParameter("id");
+        String rawid = request.getParameter("id");
 
-        int id = Integer.parseInt(raw_id);
+        int id = Integer.parseInt(rawid);
         AccountDAO adb = new AccountDAO();
       
         String a = adb.getAnAccount(id).getAccount();
 
         adb.DeleteAccountbyid(id);
         if (a != null) {
-            int c = new CustomerDAO().changeStatus2(adb.getAnAccount(id).getAccount(), id);
+            new CustomerDAO().changeStatus2(adb.getAnAccount(id).getAccount(), id);
         }
         response.sendRedirect("AccountListController");
 
