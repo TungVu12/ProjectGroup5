@@ -35,7 +35,7 @@ public class RegisterController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws new UnsupportedOperationException {
+            throws UnsupportedOperationException {
 
     }
 
