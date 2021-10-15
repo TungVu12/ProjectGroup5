@@ -297,10 +297,4 @@ public class OrderDetailDAO extends DBContext {
         }
         return ls;
     }
-
-    public static void main(String[] args) {
-        OrderDetailDAO c = new OrderDetailDAO();
-        String id = String.valueOf(c.getMaxOidByUserName("hoang").getMaxOrdid());
-        System.err.println(c.getOne(1).getProductid().getId());
-    }
 }
