@@ -347,6 +347,7 @@ public class ProductDAO extends DBContext {
                 return p;
             }
         } catch (SQLException e) {
+            System.err.println(e);
         }
         return null;
     }
