@@ -96,7 +96,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
         }
         return null;
 
@@ -140,7 +140,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
         }
         return null;
 
@@ -163,7 +163,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
         }
         return null;
 
@@ -186,7 +186,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
         }
         return null;
 
@@ -250,7 +250,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            ex.printStackTrace(System.err);
         }
         return null;
 
@@ -301,6 +301,6 @@ public class OrderDetailDAO extends DBContext {
     public static void main(String[] args) {
         OrderDetailDAO c = new OrderDetailDAO();
         String id = String.valueOf(c.getMaxOidByUserName("hoang").getMaxOrdid());
-        System.out.println(c.getOne(1).getProductid().getId());
+        System.err.println(c.getOne(1).getProductid().getId());
     }
 }
