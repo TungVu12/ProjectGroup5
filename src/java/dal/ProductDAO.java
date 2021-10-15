@@ -303,7 +303,6 @@ public class ProductDAO extends DBContext {
                 p.setPrice(rs.getDouble("price"));
                 p.setQuantity(rs.getInt("quantity"));
                 p.setImgName(rs.getString("imgName"));
-                // p.setDescription(rs.getString("description"));
                 p.setStatus(rs.getInt("pstatus"));
                 Category c = new Category();
                 c.setId(rs.getInt("cid"));
