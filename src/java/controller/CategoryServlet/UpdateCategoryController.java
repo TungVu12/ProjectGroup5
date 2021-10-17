@@ -60,7 +60,6 @@ public class UpdateCategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Category c  = new Category();
         CategoryDao cdb = new CategoryDao();
         int id = Integer.parseInt(request.getParameter("id"));
         
