@@ -45,8 +45,7 @@ public class changStatus extends HttpServlet {
             b.setStatus(status);
             db.updatestatus3(b);
         }
-//        response.getWriter().print(status + "&" +oID +"  ");
-//        response.getWriter().print(line[line.length-1]);
+
        response.sendRedirect("OrderManager");
       
     }
