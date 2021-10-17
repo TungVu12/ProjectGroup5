@@ -51,7 +51,7 @@ public class Customer {
         this.status = status;
     }
 
-    public Customer(String phone, String address) {
+    public Customer(String cphone, String cAddress) {
        this.cphone = cphone;
         this.cAddress = cAddress;   }
 
