@@ -310,7 +310,7 @@ public class OrderDAO extends DBContext {
 //        Customer cu = new CustomerDAO().getOne("hoang");
 //        System.out.println(o.add(new Order(or.getId() + 1, cu.getCname(), cu.getCphone(),
 //                cu.getcAddress(), 2.0, 1, new Customer(cu.getId()), "")));
-        OrderDetailDAO ord = new OrderDetailDAO();
+        Order od = new Order();
         od.setStatus(1);
         System.out.println(o.getAllbycid(7));
     }

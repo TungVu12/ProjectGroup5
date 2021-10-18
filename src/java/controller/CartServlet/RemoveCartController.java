@@ -33,7 +33,7 @@ public class RemoveCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        string listCart = "listCart";
+        String listCart = "listCart";
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             HttpSession session = request.getSession();

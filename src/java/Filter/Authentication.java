@@ -53,7 +53,7 @@ public class Authentication implements Filter {
     }
 
     @Override
-    public void destroy() throw UnsupportedOperationException {
+    public void destroy() throws UnsupportedOperationException {
     }
 
 }
