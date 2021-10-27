@@ -35,11 +35,9 @@ public class CustomerDAO extends DBContext {
                 System.out.println("Account does not exist!");
 
             } else {
-
-                try {
-                    // check OK
-                    String Checksql = "update [customer] set password=? where id=?";
-                    PreparedStatement stm1 = connection.prepareStatement(Checksql);
+                String Checksql = "update [customer] set password=? where id=?";
+                try( PreparedStatement stm1 = connection.prepareStatement(Checksql);) {
+                    // check Ok
                     stm1.setString(1, newpass);
                     stm1.setString(2, id);
                     x = stm1.executeUpdate();
@@ -71,12 +69,10 @@ public class CustomerDAO extends DBContext {
 
     public int UpdateCustomer1(String cid, Customer c) {
         int n = 0;
-        try {
-            String sql = "update Customer set "
+        String sql = "update Customer set "
                     + "cname=?,cphone=?,cAddress=? "
                     + "where id=? ";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try ( PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(1, c.getCname());
             stm.setString(2, c.getCphone());
             stm.setString(3, c.getcAddress());
@@ -93,8 +89,7 @@ public class CustomerDAO extends DBContext {
         int n = 0;
         String preSql = "update Customer set status=? where id=?";
 
-        try {
-            PreparedStatement pre = connection.prepareStatement(preSql);
+        try (PreparedStatement pre = connection.prepareStatement(preSql);){
             pre.setInt(1, status);
             pre.setInt(2, cid);
             n = pre.executeUpdate();
@@ -107,8 +102,7 @@ public class CustomerDAO extends DBContext {
         int n = 0;
         String preSql = "update Customer set status=? where username=?";
 
-        try {
-            PreparedStatement pre = connection.prepareStatement(preSql);
+        try (PreparedStatement pre = connection.prepareStatement(preSql);){
             pre.setInt(1, status);
             pre.setString(2, username);
             n = pre.executeUpdate();
@@ -244,10 +238,8 @@ public class CustomerDAO extends DBContext {
     }
 
     public void findCustomerByName(String name) {
-
-        try {
-            String sql = "Select * from Customer where name like ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "Select * from Customer where name like ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(1, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -270,10 +262,8 @@ public class CustomerDAO extends DBContext {
 
     public int DeleteCustomerbyid(int id) {
         int n = 0;
-        try {
-
-            String sql = "delete from Customer where id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "delete from Customer where id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setInt(1, id);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -284,14 +274,11 @@ public class CustomerDAO extends DBContext {
 
     public int add(Customer a, String username) {
         int n = 0;
-
-        try {
+        String sql = "insert into Customer (cname,cphone,cAddress,username,password,status) values(?,?,?,?,?,?)";
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
             if (Checkusername(username) != null) {
                 System.out.println("the username has been created before");
             } else {
-
-                String sql = "insert into Customer (cname,cphone,cAddress,username,password,status) values(?,?,?,?,?,?)";
-                PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setString(1, a.getCname());
                 stm.setString(2, a.getCphone());
                 stm.setString(3, a.getcAddress());
@@ -399,11 +386,9 @@ public class CustomerDAO extends DBContext {
                 System.out.println("Account does not exist!");
 
             } else {
-
-                try {
+                String Checksql = "update [customer] set password=? where username like ?";
+                try(PreparedStatement stm1 = connection.prepareStatement(Checksql);) {
                     // check OK
-                    String Checksql = "update [customer] set password=? where username like ?";
-                    PreparedStatement stm1 = connection.prepareStatement(Checksql);
                     stm1.setString(1, newpass);
                     stm1.setString(2, username);
                     x = stm1.executeUpdate();
