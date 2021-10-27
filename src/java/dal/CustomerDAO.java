@@ -36,7 +36,7 @@ public class CustomerDAO extends DBContext {
 
             } else {
                 String Checksql = "update [customer] set password=? where id=?";
-                try( PreparedStatement stm1 = connection.prepareStatement(Checksql);) {
+                try( PreparedStatement stm1 = connection.prepareStatement(Checksql)) {
                     // check Ok
                     stm1.setString(1, newpass);
                     stm1.setString(2, id);
@@ -72,7 +72,7 @@ public class CustomerDAO extends DBContext {
         String sql = "update Customer set "
                     + "cname=?,cphone=?,cAddress=? "
                     + "where id=? ";
-        try ( PreparedStatement stm = connection.prepareStatement(sql);){
+        try ( PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setString(1, c.getCname());
             stm.setString(2, c.getCphone());
             stm.setString(3, c.getcAddress());
@@ -89,7 +89,7 @@ public class CustomerDAO extends DBContext {
         int n = 0;
         String preSql = "update Customer set status=? where id=?";
 
-        try (PreparedStatement pre = connection.prepareStatement(preSql);){
+        try (PreparedStatement pre = connection.prepareStatement(preSql)){
             pre.setInt(1, status);
             pre.setInt(2, cid);
             n = pre.executeUpdate();
@@ -102,7 +102,7 @@ public class CustomerDAO extends DBContext {
         int n = 0;
         String preSql = "update Customer set status=? where username=?";
 
-        try (PreparedStatement pre = connection.prepareStatement(preSql);){
+        try (PreparedStatement pre = connection.prepareStatement(preSql)){
             pre.setInt(1, status);
             pre.setString(2, username);
             n = pre.executeUpdate();
@@ -239,7 +239,7 @@ public class CustomerDAO extends DBContext {
 
     public void findCustomerByName(String name) {
         String sql = "Select * from Customer where name like ?";
-        try (PreparedStatement stm = connection.prepareStatement(sql);){
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setString(1, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -263,7 +263,7 @@ public class CustomerDAO extends DBContext {
     public int DeleteCustomerbyid(int id) {
         int n = 0;
         String sql = "delete from Customer where id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sql);){
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setInt(1, id);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -275,7 +275,7 @@ public class CustomerDAO extends DBContext {
     public int add(Customer a, String username) {
         int n = 0;
         String sql = "insert into Customer (cname,cphone,cAddress,username,password,status) values(?,?,?,?,?,?)";
-        try(PreparedStatement stm = connection.prepareStatement(sql);) {
+        try(PreparedStatement stm = connection.prepareStatement(sql)) {
             if (Checkusername(username) != null) {
                 System.out.println("the username has been created before");
             } else {
@@ -300,7 +300,8 @@ public class CustomerDAO extends DBContext {
 
         // check pass and repass -- javascript
         // check account (username, oldpass)
-        try {
+        String sql = "update [customer] set password=? where id=?";
+        try(PreparedStatement stm = connection.prepareStatement(sql)) {
 //            String checksql = "select * from [Account] where user='" + username + "'"
 //                    + " and password='" + oldpass + "'";
 //            ResultSet rs = this.getData(checksql);
@@ -313,10 +314,7 @@ public class CustomerDAO extends DBContext {
                 System.out.println("Account does not exist!");
 
             } else {
-
                 // check OK
-                String sql = "update [customer] set password=? where id=?";
-                PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setString(1, newPass);
                 stm.setInt(2, id);
                 n = stm.executeUpdate();
@@ -361,8 +359,7 @@ public class CustomerDAO extends DBContext {
     public Customer CustomerStatus(int status) {
         String sql = " select count(id) as counta from Customer where status = ?";
 
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try(PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, status);
 
             ResultSet rs = stm.executeQuery();
@@ -387,7 +384,7 @@ public class CustomerDAO extends DBContext {
 
             } else {
                 String Checksql = "update [customer] set password=? where username like ?";
-                try(PreparedStatement stm1 = connection.prepareStatement(Checksql);) {
+                try(PreparedStatement stm1 = connection.prepareStatement(Checksql)) {
                     // check OK
                     stm1.setString(1, newpass);
                     stm1.setString(2, username);
