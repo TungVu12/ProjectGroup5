@@ -24,8 +24,7 @@ public class ProductDAO extends DBContext {
 
     public Product checkid(int id) {
         String sql = "select * from Product where id = ?";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){           
             stm.setInt(1, id);
 
             ResultSet rs = stm.executeQuery();
@@ -49,8 +48,8 @@ public class ProductDAO extends DBContext {
 
     public Product checkName(String name) {
         String sql = "select * from Product where name like ?";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
+            
             stm.setString(1, name);
 
             ResultSet rs = stm.executeQuery();
@@ -74,10 +73,11 @@ public class ProductDAO extends DBContext {
 
     public int addProduct(Product c, int id, String name) {
         int n = 0;
-        try {
+        String sql = "insert into Product(id, name, price,quantity,imgName,description,categoryId,status) values (?,?,?,?,?,?,?,?)";
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
 
-            String sql = "insert into Product(id, name, price,quantity,imgName,description,categoryId,status) values (?,?,?,?,?,?,?,?)";
-            PreparedStatement stm = connection.prepareStatement(sql);
+            
+            
             stm.setInt(1, id);
             stm.setString(2, name);
             if (checkName(name) != null) {
@@ -103,11 +103,11 @@ public class ProductDAO extends DBContext {
 
     public int UpdateProduct(Product c) {
         int n = 0;
-        try {
+        String sql = "Update Product set name=?,price=?,quantity=?,imgName=?,description=?,status=?, categoryID=? where id=?";
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
 
-            String sql = "Update Product set name=?,price=?,quantity=?,imgName=?,description=?,status=?, categoryID=? where id=?";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
+            
+            
             stm.setString(1, c.getName());
             stm.setInt(3, c.getQuantity());
             stm.setDouble(2, c.getPrice());
@@ -125,12 +125,12 @@ public class ProductDAO extends DBContext {
 
     public int UpdateProductQuantity(Product c) {
         int n = 0;
-        try {
+        String sql = "Update Product set quantity=? where id=?";
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
 
-            String sql = "Update Product set quantity=? where id=?";
+            
 
-            PreparedStatement stm = connection.prepareStatement(sql);
-
+            
             stm.setInt(1, c.getQuantity());
 
             stm.setInt(2, c.getId());
@@ -143,13 +143,13 @@ public class ProductDAO extends DBContext {
 
     
 
-    public Product DisplayAProduct(int id) {
-        try {
-            Product p = new Product();
+    public Product DisplayAProduct(int id) {         
             String sql = "select p.id as pid,p.name as pname,price,quantity"
                     + ",imgName,description, p.status as pstatus , c.status as cstatus,c.name as cateName, c.id as cid "
                     + "from product p inner join category c on p.categoryId = c.id where p.id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
+                Product p = new Product();
+            
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -175,12 +175,13 @@ public class ProductDAO extends DBContext {
     }
 
     public Product getone(int id) {
-        try {
-            Product p = new Product();
-            String sql = "select p.id as pid,p.name as pname,price,quantity"
+                    String sql = "select p.id as pid,p.name as pname,price,quantity"
                     + ",imgName,description, p.status as pstatus ,c.name as cateName, c.id as cid "
                     + "from product p inner join category c on p.categoryId = c.id where p.id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
+            Product p = new Product();
+
+            
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -320,11 +321,12 @@ public class ProductDAO extends DBContext {
 
     public int DeleteProductbyPid(int id) {
         int n = 0;
-        try {
-
-            String sql = "  update Product set status = 0\n"
+                    String sql = "  update Product set status = 0\n"
                     + "  where id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
+
+
+            
             stm.setInt(1, id);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -336,8 +338,8 @@ public class ProductDAO extends DBContext {
     public Product ProductStatus(int status) {
         String sql = " select count(id) as counta from Product where status = ?";
 
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
+            
             stm.setInt(1, status);
 
             ResultSet rs = stm.executeQuery();
