@@ -23,9 +23,10 @@ import model.Product;
 public class AccountDAO extends DBContext {
 
     public Account checkLogin(String name, String password) {
-        try {
-            String sql = "select * from account where [user] like ? and password like ? ";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "select * from account where [user] like ? and password like ? ";
+        
+        try (PreparedStatement stm = connection.prepareStatement(sql);) {
+            
             stm.setString(1, name);
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
@@ -67,11 +68,11 @@ public class AccountDAO extends DBContext {
 
     public Account getAnAccount(int a) {
         Account aD = new Account();
-        try {
-            String sql = "SELECT * FROM Account WHERE id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql,
+        String sql = "SELECT * FROM Account WHERE id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+                    ResultSet.CONCUR_UPDATABLE);) {
+            
             stm.setInt(1, a);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -85,17 +86,15 @@ public class AccountDAO extends DBContext {
 
     public int add(Account account, String username) {
         int n = 0;
-        try {
+        String sql = "INSERT INTO account([user],password,role)"
+                    + " VALUES(?, ?,?)";
+        
+        try(PreparedStatement stm = connection.prepareStatement(sql);) {
             if(checkUsername(username) != null){
                 System.out.println("Account existed");
             }else{
-                
-           
+                            
             
-            
-            String sql = "INSERT INTO account([user],password,role)"
-                    + " VALUES(?, ?,?)";
-            PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, account.getPassword());
             stm.setString(3,account.getRole());
@@ -110,11 +109,8 @@ public class AccountDAO extends DBContext {
 
     public int UpdateAccount(Account c, int id) {
         int n = 0;
-        try {
-
-            String sql = "Update account SET [user] = ?,  [password]  = ? where id= ?";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "Update account SET [user] = ?,  [password]  = ? where id= ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(2, c.getPassword());
             stm.setString(1, c.getAccount());
             stm.setInt(3, id);
@@ -128,10 +124,9 @@ public class AccountDAO extends DBContext {
 
     public int DeleteAccount(String username) {
         int n = 0;
-        try {
+        String sql = "delete from account where user like ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
 
-            String sql = "delete from account where user like ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -142,10 +137,8 @@ public class AccountDAO extends DBContext {
 
     public int DeleteAccountbyid(int id) {
         int n = 0;
-        try {
-
-            String sql = "delete from account where id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "delete from account where id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setInt(1, id);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -156,8 +149,7 @@ public class AccountDAO extends DBContext {
 
     public Account checkUser(String user, String password) {
         String sql = "select * from account where [user] = ? and password = ?";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(1, user);
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
@@ -177,10 +169,10 @@ public class AccountDAO extends DBContext {
     public int changePassword(String username,String oldpass,
             String newPass, int id) {
         int n = 0;
-
+        String sql = "update [Account] set password=? where id=?";
         // check pass and repass -- javascript
         // check account (username, oldpass)
-        try {
+        try (PreparedStatement stm = connection.prepareStatement(sql);) {
 //            String checksql = "select * from [Account] where user='" + username + "'"
 //                    + " and password='" + oldpass + "'";
 //            ResultSet rs = this.getData(checksql);
@@ -195,8 +187,6 @@ public class AccountDAO extends DBContext {
             } else {
 
                 // check OK
-                String sql = "update [Account] set password=? where id=?";
-                PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setString(1, newPass);
                 stm.setInt(2, id);
                 n = stm.executeUpdate();
@@ -210,8 +200,7 @@ public class AccountDAO extends DBContext {
     }
        public Account checkUsername(String user) {
         String sql = "select * from account where [user] = ? ";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(1, user);
             
             ResultSet rs = stm.executeQuery();
