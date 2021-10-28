@@ -29,7 +29,10 @@ public class CustomerDAO extends DBContext {
 
         int n = 0;
         int x = 0;
-        try {
+        String sql = "update Customer set "
+                    + "cname=?,cphone=?,cAddress=?,username=?,status=? "
+                    + "where id=? ";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
 
             if (Checkuser(username, oldpass) == null) {
                 System.out.println("Account does not exist!");
@@ -46,12 +49,7 @@ public class CustomerDAO extends DBContext {
                     Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
-            String sql = "update Customer set "
-                    + "cname=?,cphone=?,cAddress=?,username=?,status=? "
-                    + "where id=? ";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
+      
             stm.setString(1, c.getCname());
             stm.setString(2, c.getCphone());
             stm.setString(3, c.getcAddress());
@@ -377,7 +375,10 @@ public class CustomerDAO extends DBContext {
 
         int n = 0;
         int x = 0;
-        try {
+        String sql = "update Customer set "
+                    + "cname=?,cphone=?,cAddress=? "
+                    + "where username=? ";
+        try( PreparedStatement stm = connection.prepareStatement(sql)) {
 
             if (Checkuser(username, oldpass) == null) {
                 System.out.println("Account does not exist!");
@@ -393,13 +394,7 @@ public class CustomerDAO extends DBContext {
                 } catch (SQLException ex) {
                     Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            
-
-            String sql = "update Customer set "
-                    + "cname=?,cphone=?,cAddress=? "
-                    + "where username=? ";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
+                
             stm.setString(1, c.getCname());
             stm.setString(2, c.getCphone());
             stm.setString(3, c.getcAddress());
