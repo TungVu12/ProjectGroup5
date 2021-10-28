@@ -69,7 +69,7 @@ public class CategoryDao extends DBContext {
         public int UpdateCategory(Category c, int id) {
             int n = 0;
             String sql = "update Category set name = ?, status = ? where id = ?";
-            try (PreparedStatement stm = connection.prepareStatement(sql);){
+            try (PreparedStatement stm = connection.prepareStatement(sql)){
                 stm.setInt(3, id);
                 stm.setString(1, c.getName());
                 stm.setInt(2, c.getStatus());
@@ -84,7 +84,7 @@ public class CategoryDao extends DBContext {
         int n = 0;
         String sql = "INSERT INTO category(name,status)"
                    + " VALUES(?, ?)";
-        try (PreparedStatement stm = connection.prepareStatement(sql);){
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             if (checkCate(name) != null) {
                 System.out.println("Category existed");
             } else {
@@ -101,7 +101,7 @@ public class CategoryDao extends DBContext {
     public int changeStatus(int cid) {
         int n = 0;
         String preSql = "update category set status= 0 where id=?";
-        try (PreparedStatement pre = connection.prepareStatement(preSql);){
+        try (PreparedStatement pre = connection.prepareStatement(preSql)){
             pre.setInt(1, cid);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
@@ -112,7 +112,7 @@ public class CategoryDao extends DBContext {
 
     public Category checkCate(String name) {
         String sql = "select * from Category where name=?";
-        try (PreparedStatement stm = connection.prepareStatement(sql);){
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setString(1, name);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
