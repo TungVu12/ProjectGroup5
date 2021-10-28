@@ -68,18 +68,12 @@ public class CategoryDao extends DBContext {
 
         public int UpdateCategory(Category c, int id) {
             int n = 0;
-            try {
-
-                String sql = "update Category set name = ?, status = ? where id = ?";
-
-                PreparedStatement stm = connection.prepareStatement(sql);
-
+            String sql = "update Category set name = ?, status = ? where id = ?";
+            try (PreparedStatement stm = connection.prepareStatement(sql);){
                 stm.setInt(3, id);
                 stm.setString(1, c.getName());
                 stm.setInt(2, c.getStatus());
-
                 n = stm.executeUpdate();
-
             } catch (SQLException ex) {
                 Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -88,18 +82,15 @@ public class CategoryDao extends DBContext {
 
     public int add(Category c, String name) {
         int n = 0;
-        try {
+        String sql = "INSERT INTO category(name,status)"
+                   + " VALUES(?, ?)";
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             if (checkCate(name) != null) {
                 System.out.println("Category existed");
             } else {
-
-                String sql = "INSERT INTO category(name,status)"
-                        + " VALUES(?, ?)";
-                PreparedStatement stm = connection.prepareStatement(sql);
                 stm.setString(1, name);
                 stm.setInt(2, c.getStatus());
                 n = stm.executeUpdate();
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,10 +101,7 @@ public class CategoryDao extends DBContext {
     public int changeStatus(int cid) {
         int n = 0;
         String preSql = "update category set status= 0 where id=?";
-
-        try {
-            PreparedStatement pre = connection.prepareStatement(preSql);
-
+        try (PreparedStatement pre = connection.prepareStatement(preSql);){
             pre.setInt(1, cid);
             n = pre.executeUpdate();
         } catch (SQLException ex) {
@@ -124,13 +112,12 @@ public class CategoryDao extends DBContext {
 
     public Category checkCate(String name) {
         String sql = "select * from Category where name=?";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql);){
             stm.setString(1, name);
-
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                new Category(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                Category c = new Category(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                return c;
             }
         } catch (SQLException e) {
         }
