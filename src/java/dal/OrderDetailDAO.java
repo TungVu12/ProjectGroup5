@@ -31,10 +31,7 @@ public class OrderDetailDAO extends DBContext {
                 + "inner join Product p on od.ProductID = p.id";
         List<OrderDetail> ls = new ArrayList<>();
 
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (PreparedStatement stm = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);){
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 OrderDetail c = new OrderDetail();
@@ -96,7 +93,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.out);
         }
         return null;
 
@@ -104,11 +101,8 @@ public class OrderDetailDAO extends DBContext {
 
     public int add(OrderDetail a) {
         int n = 0;
-
-        try {
-
-            String sql = "insert into OrderDetail (OrderId,ProductID,quantity,Price,Total) values(?,?,?,?,?)";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "insert into OrderDetail (OrderId,ProductID,quantity,Price,Total) values(?,?,?,?,?)";
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setInt(1, a.getOrderid().getId());
             stm.setInt(2, a.getProductid().getId());
             stm.setInt(3, a.getQuantity());
@@ -140,7 +134,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.out);
         }
         return null;
 
@@ -163,7 +157,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.out);
         }
         return null;
 
@@ -186,24 +180,22 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.out);
         }
         return null;
 
     }
     public int update(OrderDetail o, String id) {
         int n = 0;
-        try {
-
-            String sql = " update orderdetail set orderid = ?\n"
+        String sql = " update orderdetail set orderid = ?\n"
                     + "      ,[ProductID] = ?\n"
                     + "      ,[Total]= ?\n"
                     + "      ,[Price]= ?\n"
                     + "      ,[quantity]= ? ";
-            if (id.length() > 0) {
+        if (id.length() > 0) {
                 sql += "where id = ?";
             }
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setString(6, id);
             stm.setInt(1, o.getOrderid().getId());
             stm.setInt(2, o.getProductid().getId());
@@ -220,10 +212,8 @@ public class OrderDetailDAO extends DBContext {
 
     public int DeletebyPid(int id) {
         int n = 0;
-        try {
-
-            String sql = "delete from orderDetail where id = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
+        String sql = "delete from orderDetail where id = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)){
             stm.setInt(1, id);
             n = stm.executeUpdate();
         } catch (SQLException ex) {
@@ -250,7 +240,7 @@ public class OrderDetailDAO extends DBContext {
                 return c;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.out);
         }
         return null;
 
@@ -265,11 +255,9 @@ public class OrderDetailDAO extends DBContext {
 
         List<OrderDetail> ls = new ArrayList<>();
 
-        try {
-
-            PreparedStatement stm = connection.prepareStatement(sql,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (PreparedStatement stm = connection.prepareStatement(sql,
+             ResultSet.TYPE_SCROLL_SENSITIVE,
+             ResultSet.CONCUR_UPDATABLE)){
             stm.setString(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -296,5 +284,11 @@ public class OrderDetailDAO extends DBContext {
             Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ls;
+    }
+
+    public static void main(String[] args) {
+        OrderDetailDAO c = new OrderDetailDAO();
+        String id = String.valueOf(c.getMaxOidByUserName("hoang").getMaxOrdid());
+        System.out.println(c.getOne(1).getProductid().getId());
     }
 }
