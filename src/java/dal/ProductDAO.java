@@ -208,18 +208,14 @@ public class ProductDAO extends DBContext {
 
     public List<Product> DisplayProductByCateid(int cate) {
         List<Product> list = new ArrayList<>();
-
-        try {
-            String sql = "select p.id as pid,p.name as pname,price,quantity\n"
+                    String sql = "select p.id as pid,p.name as pname,price,quantity\n"
                     + ",imgName,description, p.status as pstatus , c.status as cstatus,c.name as cateName, c.id as cid\n"
                     + "from Product p inner join Category c\n"
                     + "on p.categoryId = c.id\n"
                     + "where c.id = ?";
-            
-            PreparedStatement stm = connection.prepareStatement(sql,
+        try (            PreparedStatement stm = connection.prepareStatement(sql,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
+                    ResultSet.CONCUR_UPDATABLE);) {
             stm.setInt(1, cate);
             
             ResultSet rs = stm.executeQuery();
@@ -248,16 +244,16 @@ public class ProductDAO extends DBContext {
 
     public List<Product> DisplayAllProductandCateName() {
         List<Product> list = new ArrayList<>();
-
-        try {
-            String sql = "select p.id as pid,p.name as pname,price,quantity"
+                    String sql = "select p.id as pid,p.name as pname,price,quantity"
                     + ",imgName,description, p.status as pstatus , c.status as cstatus,c.name as cateName, c.id as cid\n"
                     + "from Product p inner join Category c \n"
                     + "on p.categoryId = c.id\n";
-
-            PreparedStatement stm = connection.prepareStatement(sql,
+        try (            PreparedStatement stm = connection.prepareStatement(sql,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+                    ResultSet.CONCUR_UPDATABLE);){
+
+
+
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -285,16 +281,17 @@ public class ProductDAO extends DBContext {
 
     public List<Product> DisplayProductOverview(String id) {
         List<Product> list = new ArrayList<>();
-        try {
-            String sql = "select top ( 8 )p.id as pid,p.name as pname,price,quantity"
+                    String sql = "select top ( 8 )p.id as pid,p.name as pname,price,quantity"
                     + ",imgName,description, p.status as pstatus , c.status as cstatus,c.name as cateName, c.id as cid\n"
                     + "from Product p inner join Category c \n"
                     + "on p.categoryId = c.id\n"
                     + "where c.id = ?";
-
-            PreparedStatement stm = connection.prepareStatement(sql,
+        try (            PreparedStatement stm = connection.prepareStatement(sql,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+                    ResultSet.CONCUR_UPDATABLE);){
+
+
+
             stm.setString(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
