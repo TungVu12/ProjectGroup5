@@ -191,8 +191,7 @@ public class OrderDAO extends DBContext {
 
     public Order OrderStatus(int status) {
         String sql = " select count(id) as counta from [Order] where status = ?";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
+        try(PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, status);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
